@@ -6,7 +6,10 @@ import Main from './layout/Main'
 
 export const router  = createBrowserRouter([
     {path:'/',element:<Main></Main>,children:[
-        {path:'/',element:<Home/>},
+        {path:'/',element:<Home/>,
+     loader:()=>fetch('http://localhost:3000/news')
+    
+    },
         {path:'/category/:id',element:<Category/>,
      loader:({params})=>  fetch(`http://localhost:3000/category/${params?.id}`)
     },
