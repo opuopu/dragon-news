@@ -5,8 +5,10 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
+import useAuth from '../context/Useauth';
 export default function Header() {
-  
+  const {name} = useAuth()
+  console.log(name)
   return (
     <div>
  <Navbar bg="light" expand="lg">
