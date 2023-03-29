@@ -1,14 +1,12 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import useAuth from '../context/Useauth';
 export default function Header() {
-  const {name} = useAuth()
-  console.log(name)
+  const {user,signout} = useAuth()
+
   return (
     <div>
  <Navbar bg="light" expand="lg">
@@ -22,18 +20,17 @@ export default function Header() {
             navbarScroll
           >
            <Link to='/'>All News</Link>
-          
-        
+           <Link to='/login' className='mx-2 text-danger'>login now</Link>
+           <Link to='/register' className='text-danger'>register</Link>
+         
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+           
+          {
+            user?.uid && <>
+             <p>{user?.displayName
+            }</p>  <button onClick={()=>signout()}>Sign Out</button>
+            </>
+          }
         </Navbar.Collapse>
       </Container>
     </Navbar>

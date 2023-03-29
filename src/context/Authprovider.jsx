@@ -6,11 +6,8 @@ export const authContext = createContext()
 
 const AuthProvider =({children})=>{
     const firebase = Usefirebase()
-    const data ={name:'opu'}
-    console.log(firebase)
-
     return(
-        <authContext.Provider value={data}>
+        <authContext.Provider value={firebase}>
             {children}
         </authContext.Provider>
     )
