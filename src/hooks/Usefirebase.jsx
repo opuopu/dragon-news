@@ -32,11 +32,15 @@ const Usefirebase =() =>{
     
      useEffect(()=>{
         const unsubscribe =onAuthStateChanged(auth,user=>{
-            if(user){
-                setuser(user)
+           
+             if(user.emailVerified|| user ===null){
                 console.log(user)
+                setuser(user)
                 setloading(false)
-            }
+
+             }
+             
+            
             else{
                 setuser({})
             }
@@ -62,7 +66,7 @@ const Usefirebase =() =>{
         })
      }
 
-    return {signInWithGoogle,user,signout,createuser,signinuser,loading,handleupdateprofies,sendverification}
+    return {signInWithGoogle,user,signout,createuser,signinuser,loading,handleupdateprofies,sendverification,setloading}
 }
 
 export default Usefirebase

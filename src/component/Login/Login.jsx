@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../context/Useauth';
 export default function (){
-    const {user,signinuser} = useAuth()
+    const {user,signinuser,setloading} = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
     const from  = location?.state?.from?.pathname || '/'
@@ -18,8 +18,19 @@ export default function (){
          const password = event.target.password.value
          signinuser(email,password)
          .then(result=>{
+          if(user?.emailVerified){
             navigate(from,{replace:true})
+          }
+          else{
+            console.log('not verified')
+          }
 
+         })
+         .catch(()=>{
+
+         })
+         .finally(()=>{
+                setloading(false)
          })
     }
   return (
