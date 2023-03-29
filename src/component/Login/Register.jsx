@@ -1,19 +1,47 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
 import useAuth from '../../context/Useauth';
+
 export default function (){
-    const{user,createuser} = useAuth()
+  const Navigate = useNavigate()
+    const{user,createuser,handleupdateprofies,sendverification} = useAuth()
     const submitRegister =(event) =>{
         event.preventDefault(); 
         const name =  event.target.name.value
         const email = event.target.email.value
         const password = event.target.password.value
+        const profile ={
+            displayName:name
+        }
    createuser(email,password)
    .then(result=>{
-    
+    const user = result?.user
+     update(profile)
+          verifyEmail()
+ 
+
    })
     }
+// send verification email
+const verifyEmail =() =>{
+sendverification()
+.then(()=>{
+
+})
+}
+
+    // update user profile
+
+const update =(profile)=>{
+handleupdateprofies(profile)
+.then(()=>{
+
+})
+}
+  
+
   return (
     <div>
     <Form onSubmit={submitRegister}>

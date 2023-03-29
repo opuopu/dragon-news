@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from 'react';
 import Initialize from "../config/initialize";
 
@@ -6,8 +6,10 @@ Initialize()
 const Usefirebase =() =>{
     const auth = getAuth() 
     const[user,setuser] = useState({})
+    const [loading,setloading] =useState(true)
 // google sign in
     const signInWithGoogle =()=>{
+        setloading(true)
         const provider = new GoogleAuthProvider()
          signInWithPopup(auth,provider)
          .then(result=>{
@@ -16,6 +18,7 @@ const Usefirebase =() =>{
     }
     // create user 
     const createuser =(email,password) =>{
+        setloading(true)
         return createUserWithEmailAndPassword(auth,email,password)
     }
     // signin user
@@ -31,16 +34,27 @@ const Usefirebase =() =>{
         const unsubscribe =onAuthStateChanged(auth,user=>{
             if(user){
                 setuser(user)
+                console.log(user)
+                setloading(false)
             }
             else{
                 setuser({})
             }
         })
         return ()=>unsubscribe()
-     })
+     },[])
+    //    updateprofile
+   const  handleupdateprofies =(profile) =>{
+            return updateProfile(auth.currentUser,profile)
+    }
 
+    // send email verification
+    const sendverification =() =>{
+        return sendEmailVerification(auth.currentUser)
+    }
     //  sign out
      const signout =() =>{
+        setloading(true)
         signOut(auth)
         .then(()=>{
            console.log('sign out sucessfull')
@@ -48,7 +62,7 @@ const Usefirebase =() =>{
         })
      }
 
-    return {signInWithGoogle,user,signout,createuser,signinuser}
+    return {signInWithGoogle,user,signout,createuser,signinuser,loading,handleupdateprofies,sendverification}
 }
 
 export default Usefirebase

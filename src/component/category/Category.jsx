@@ -1,8 +1,10 @@
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
+import useAuth from '../../context/Useauth'
 import SignleNews from './SignleNews'
 
 export default function Category() {
+  const {user,loading} = useAuth()
   const category = useLoaderData()
   console.log(category)
   let notfound;
@@ -11,7 +13,9 @@ export default function Category() {
   }
   return (
     <div className='row row-cols-1 g-3'>
-         <h1>{notfound}</h1>
+        {
+          loading && <h5>loading.......</h5>
+        }
      {
       category?.map(c=><SignleNews category={c} key={c?._id}></SignleNews>)
      }
